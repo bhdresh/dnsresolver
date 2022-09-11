@@ -43,6 +43,7 @@ var sendingDelay time.Duration
 var retryDelay time.Duration
 
 var concurrency int
+var exitafter int
 var dnsServer string
 var packetsPerSecond int
 var retryTime string
@@ -58,6 +59,8 @@ func init() {
 		"Send up to PPS DNS queries per second")
 	flag.StringVar(&retryTime, "retry", "1s",
 		"Resend unanswered query after RETRY")
+	flag.StringVar(&exitafter, "exitafter", 10,
+		"Exit after X failed attempts")
 	flag.BoolVar(&verbose, "v", false,
 		"Verbose logging")
 	flag.BoolVar(&ipv6, "6", false,
@@ -190,7 +193,7 @@ func do_map_guard(domains <-chan string,
 					fmt.Fprintf(os.Stderr, "0x%04x resend (try:%d) %s\n", dr.id,
 						dr.resend, dr.domain)
 				}
-				if dr.resend == 5 {
+				if dr.resend == exitafter {
 					os.Exit(1)
 				}
 				timeoutRegister <- dr
