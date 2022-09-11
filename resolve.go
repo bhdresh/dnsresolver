@@ -59,7 +59,7 @@ func init() {
 		"Send up to PPS DNS queries per second")
 	flag.StringVar(&retryTime, "retry", "1s",
 		"Resend unanswered query after RETRY")
-	flag.StringVar(&exitafter, "exitafter", 10,
+	flag.IntVar(&exitafter, "exitafter", 10,
 		"Exit after X failed attempts")
 	flag.BoolVar(&verbose, "v", false,
 		"Verbose logging")
