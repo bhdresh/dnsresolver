@@ -189,6 +189,7 @@ func do_map_guard(domains <-chan string,
 				if verbose {
 					fmt.Fprintf(os.Stderr, "0x%04x resend (triii:%d) %s\n", dr.id,
 						dr.resend, dr.domain)
+					os.Exit(1)
 				}
 				timeoutRegister <- dr
 				tryResolving <- dr
