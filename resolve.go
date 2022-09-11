@@ -187,9 +187,8 @@ func do_map_guard(domains <-chan string,
 				dr.resend += 1
 				dr.timeout = time.Now()
 				if verbose {
-					fmt.Fprintf(os.Stderr, "0x%04x resend (triii:%d) %s\n", dr.id,
+					fmt.Fprintf(os.Stderr, "0x%04x resend (try:%d) %s\n", dr.id,
 						dr.resend, dr.domain)
-					os.Exit(1)
 				}
 				timeoutRegister <- dr
 				tryResolving <- dr
@@ -247,7 +246,7 @@ func do_timeouter(timeoutRegister <-chan *domainRecord,
 }
 
 func do_send(c net.Conn, tryResolving <-chan *domainRecord) {
-	for {
+	for i := 0; i < 10; i++ {
 		dr := <-tryResolving
 
 		var t uint16
